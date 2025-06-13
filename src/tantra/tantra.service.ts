@@ -10,10 +10,10 @@ export class TantraService {
         private readonly tantraRepo: Repository<TantraItem>,
     ) {}
 
-    async addStarterItem(account: string, itemIndex = 8783): Promise<void> {
+    async addStarterItem(username: string, itemIndex = 8783): Promise<void> {
         const item = this.tantraRepo.create({
-        Account: account,
-        ItemIndex: itemIndex,
+            account: username,
+            itemIndex: itemIndex
         });
 
         await this.tantraRepo.save(item);

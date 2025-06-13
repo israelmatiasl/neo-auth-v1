@@ -5,16 +5,14 @@ GO
 IF OBJECT_ID('dbo.tblUser', 'U') IS NULL
 BEGIN
     CREATE TABLE [dbo].[tblUser] (
-        [id] INT IDENTITY(1,1) PRIMARY KEY,
-        [userNumber] INT NOT NULL,
-        [userID] NVARCHAR(52) NOT NULL,
+        [userNumber] INT PRIMARY KEY,
+        [userId] NVARCHAR(52) NOT NULL,
         [userPwd] NVARCHAR(100) NULL,
         [cpId] INT NULL,
         [userTypeId] TINYINT NULL,
         [userStatusId] TINYINT NULL,
         [gameServiceId] SMALLINT NULL,
-        [apply] TINYINT NULL,
-        CONSTRAINT UQ_tblUser_userNumber UNIQUE ([userNumber])
+        [apply] TINYINT NULL
     );
 END
 GO
@@ -23,8 +21,7 @@ GO
 IF OBJECT_ID('dbo.tblUserDetail', 'U') IS NULL
 BEGIN
     CREATE TABLE [dbo].[tblUserDetail] (
-        [id] INT IDENTITY(1,1) PRIMARY KEY,
-        [userNumber] INT NOT NULL,
+        [userNumber] INT PRIMARY KEY,
         [handphoneNumber] NVARCHAR(34) NULL,
         [jobTypeId] NVARCHAR(50) NULL,
         [isSendEmail] BIT NULL,
@@ -41,12 +38,11 @@ GO
 IF OBJECT_ID('dbo.tblUserInfo', 'U') IS NULL
 BEGIN
     CREATE TABLE [dbo].[tblUserInfo] (
-        [id] INT IDENTITY(1,1) PRIMARY KEY,
-        [userNumber] INT NOT NULL,
-        [userID] NVARCHAR(52) NOT NULL,
+        [userNumber] INT PRIMARY KEY,
+        [userId] NVARCHAR(52) NOT NULL,
         [userPwd] NVARCHAR(70) NULL,
         [userKey] NVARCHAR(7) NULL,
-        [cpId] INT NULL,
+        [cpId] INT NOT NULL DEFAULT 0, -- CUAL ES EL VALOR POR DEFECTO? 
         [userSurName] NVARCHAR(64) NULL,
         [MI] NVARCHAR(1) NULL,
         [userFirstName] NVARCHAR(64) NULL,

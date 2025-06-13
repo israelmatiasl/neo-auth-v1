@@ -10,9 +10,12 @@ import { User } from './user/user.entity';
 import { UserDetail } from './user/user-detail.entity';
 import { UserInfo } from './user/user-info.entity';
 import { TantraItem } from './tantra/tantra-item.entity';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
+
     TypeOrmModule.forRoot({
       name: 'neoimperio',
       type: 'mssql',
@@ -23,6 +26,9 @@ import { TantraItem } from './tantra/tantra-item.entity';
       database: 'NeoImperio',
       entities: [Account],
       synchronize: false,
+      options: {
+        trustServerCertificate: true, // <--- agrega esta línea
+      },
     }),
 
     // Conexión a billcrux_8k
@@ -40,6 +46,9 @@ import { TantraItem } from './tantra/tantra-item.entity';
         UserInfo
       ],
       synchronize: false,
+      options: {
+        trustServerCertificate: true, // <--- agrega esta línea
+      },
     }),
 
     // Conexión a tantra_azteca
@@ -53,6 +62,9 @@ import { TantraItem } from './tantra/tantra-item.entity';
       database: 'tantra_azteca',
       entities: [TantraItem],
       synchronize: false,
+      options: {
+        trustServerCertificate: true, // <--- agrega esta línea
+      },
     }),
 
     // Módulos funcionales

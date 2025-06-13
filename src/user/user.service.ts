@@ -16,17 +16,22 @@ export class UserService {
         private readonly userInfoRepository: Repository<UserInfo>,
     ) {}
 
-    async createUser(userNumber: number, userID: string): Promise<void> {
-        // tblUser con autogenerado ID
-        const user = this.userRepository.create({ userID, userNumber });
-        const savedUser = await this.userRepository.save(user);
+    async createUser(accountId: number, username: string): Promise<void> {
+        const user = this.userRepository.create({
+            userNumber: accountId,
+            userId: username
+        });
+        await this.userRepository.save(user);
 
-        // tblUserDetail usando el ID generado
-        const detail = this.userDetailRepository.create({ userNumber: savedUser.id });
+        
+        const detail = this.userDetailRepository.create({ userNumber: accountId });
         await this.userDetailRepository.save(detail);
 
-        // tblUserInfo usando el ID generado
-        const info = this.userInfoRepository.create({ userNumber: savedUser.id, userID });
+        
+        const info = this.userInfoRepository.create({
+            userNumber: accountId,
+            userId: username
+        });
         await this.userInfoRepository.save(info);
     }
 }

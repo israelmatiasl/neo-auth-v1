@@ -1,17 +1,28 @@
 #!/bin/bash
 
-echo "Esperando a que SQL Server esté listo..."
-until /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P YourStrong!Passw0rd -Q "SELECT 1" &> /dev/null
+# Iniciar SQL Server en segundo plano
+/opt/mssql/bin/sqlservr &
+
+# Esperar a que SQL Server esté listo
+echo "Esperando a que SQL Server inicie..."
+until /opt/mssql-tools/bin/sqlcmd -S localhost,1433 -U sa -P "$SA_PASSWORD" -C -Q "SELECT 1" > /dev/null 2>&1
 do
-  sleep 2
+  echo "SQL Server aún no está listo, esperando..."
+  sleep 5
 done
 
-echo "SQL Server está listo. Ejecutando scripts SQL..."
+echo "SQL Server está listo!"
 
-for script in /scripts/*.sql; do
-  echo "▶ Ejecutando $script..."
-  /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P YourStrong!Passw0rd -i "$script"
-done
+# Ejecutar scripts de inicialización si existen
+if [ -d "/scripts" ]; then
+    echo "Ejecutando scripts de inicialización..."
+    for script in /scripts/*.sql; do
+        if [ -f "$script" ]; then
+            echo "Ejecutando $script..."
+            /opt/mssql-tools/bin/sqlcmd -S localhost,1433 -U sa -P "$SA_PASSWORD" -C -i "$script"
+        fi
+    done
+fi
 
-echo "Scripts ejecutados. Iniciando SQL Server..."
-exec /opt/mssql/bin/sqlservr
+# Mantener el contenedor corriendo
+wait

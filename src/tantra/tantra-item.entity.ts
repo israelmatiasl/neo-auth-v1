@@ -2,21 +2,24 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeor
 
 @Entity({ name: 'TantraItem', database: 'tantra_azteca' })
 export class TantraItem {
-    @PrimaryGeneratedColumn()
-    id: number; // Asumido si tienes un ID interno. Si no, omítelo.
+    @PrimaryGeneratedColumn({ name: 'ID' })
+    id: number;
 
-    @Column()
-    Account: string;
+    @Column({ name: 'World' })
+    world: number;
 
-    @Column()
-    ItemIndex: number;
+    @Column({ name: 'Account' })
+    account: string;
 
-    @Column({ default: 0 })
-    ItemCount: number;
+    @Column({ name: 'ItemIndex' })
+    itemIndex: number;
 
-    @Column({ default: 0 })
-    Regalo: number;
+    @Column({ name: 'ItemCount', default: 0 })
+    itemCount: number;
+
+    @Column({ name: 'Regalo', default: 0 })
+    regalo: number;
 
     @CreateDateColumn({ type: 'datetime', name: 'Fecha' })
-    Fecha: Date;
+    fecha: Date;
 }

@@ -12,16 +12,19 @@ export class AccountService {
         private readonly accountRepository: Repository<Account>
     ) {}
 
-    async findByUsernameOrEmail(userID: string, email: string): Promise<Account | null> {
-        return this.accountRepository
-            .createQueryBuilder('account')
-            .where('account.userID = :userID OR account.email = :email', { userID, email })
-            .getOne();
+    async findByUsernameOrEmail(userId: string, email: string): Promise<Account | null> {
+        //return this.accountRepository
+        //    .createQueryBuilder('account')
+        //    .where('account.userID = :userID OR account.email = :email', { userId, email })
+        //    .getOne();
+        return this.accountRepository.findOne({
+            where: [ { userId }, { email } ]
+        });
     }
     
 
     async createAccount(input: {
-        userID: string;
+        username: string;
         password: string;
         email: string;
         name: string;
@@ -31,7 +34,7 @@ export class AccountService {
         const md5Password = md5(input.password);
 
         const account = this.accountRepository.create({
-            userID: input.userID,
+            userId: input.username,
             hash: hashedPassword,
             password: md5Password,
             email: input.email,

@@ -68,6 +68,24 @@ $ npm install -g @nestjs/mau
 $ mau deploy
 ```
 
+## Base de datos
+
+Para ejecutar la base de datos localmente, sigue estos pasos:
+
+```bash
+# Detener y eliminar el contenedor actual
+docker-compose down
+
+# Eliminar el volumen si quieres empezar limpio (opcional)
+docker volume rm neo-auth-v1_mssql_data
+
+# Levantar con la nueva configuración
+docker-compose up -d
+
+# Verificar los logs
+docker-compose logs -f mssql
+```
+
 With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
 
 ## Resources

@@ -30,27 +30,28 @@ export class AppService {
       throw new ConflictException('Username or email already exists');
     }
 
-    // Crear cuenta en NeoImperio (con hash y md5 dentro del servicio)
-    const account = await this.accountService.createAccount({
-      userID: username,
-      password,
-      email,
-      name,
-      surname,
-    });
-
     try {
+      // Crear cuenta en NeoImperio (con hash y md5 dentro del servicio)
+      const account = await this.accountService.createAccount({
+        username,
+        password,
+        email,
+        name,
+        surname,
+      });
+
       // Insertar datos en billcrux_8k (3 tablas)
-      await this.userService.createUser(account.id, account.userID);
+      await this.userService.createUser(account.accountId, username);
 
       // Insertar ítem inicial en tantra_azteca
-      await this.tantraService.addStarterItem(account.userID);
+      await this.tantraService.addStarterItem(username);
 
       return {
         message: 'Registro exitoso',
-        username: account.userID,
+        username: account.userId,
       };
     } catch (error) {
+      console.error('Error al registrar cuenta:', error);
       // Aquí podrías hacer rollback manual si quieres en caso de error en cascada
       throw new InternalServerErrorException('Error al completar el registro');
     }

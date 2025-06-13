@@ -2,19 +2,19 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('Cuentas')
 export class Account {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn({ name: 'CuentaID' })
+  accountId: number;
 
   @Column({ name: 'UserID' })
-  userID: string;
+  userId: string;
 
-  @Column()
-  hash: string; // Hashed password
+  @Column({ name: 'Hash' })
+  hash: string;
 
-  @Column()
-  password: string; // MD5 password original
+  @Column({ name: 'Password' })
+  password: string;
 
-  @Column()
+  @Column({ name: 'Email' } )
   email: string;
 
   @Column({ name: 'Nombre' })
