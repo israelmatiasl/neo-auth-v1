@@ -1,0 +1,57 @@
+org: devploy
+
+service: neo-auth
+frameworkVersion: '4.14.3'
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: us-east-2
+  stage: dev
+  environment:
+    STAGE: ${sls:stage}
+    MSSQL_HOST: devployd01.database.windows.net
+    MSSQL_PORT: 1433
+    MSSQL_USER: devploy
+    MSSQL_PASSWORD: 98714731Iml789.
+    MSSQL_DATABASE: devploy_db
+  
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - ec2:CreateNetworkInterface
+            - ec2:DescribeNetworkInterfaces
+            - ec2:DeleteNetworkInterface
+          Resource: "*"
+
+plugins:
+  - serverless-offline
+
+functions:
+  main:
+    handler: dist/handler.handler
+    timeout: 10
+    memorySize: 128
+    events:
+      - http:
+          method: ANY
+          path: /
+      - http:
+          method: ANY
+          path: '{proxy+}'
+
+custom:
+  serverless-offline:
+    useChildProcesses: true
+    httpPort: 3000
+  esbuild:
+    tsconfig: './tsconfig.json'
+    bundle: true
+    minify: false
+    sourcemap: true
+    exclude: ['aws-sdk']
+    target: node20
+    platform: node
+    concurrency: 10

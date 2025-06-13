@@ -1,0 +1,19 @@
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver-multi-db
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrong!Passw0rd
+    ports:
+      - "1433:1433"
+    volumes:
+      - ./scripts:/scripts
+      - ./entrypoint.sh:/entrypoint.sh
+    entrypoint: [ "/bin/bash", "/entrypoint.sh" ]
+    healthcheck:
+      test: [ "CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "YourStrong!Passw0rd", "-Q", "SELECT 1" ]
+      interval: 10s
+      retries: 10
+      start_period: 20s
+      timeout: 5s

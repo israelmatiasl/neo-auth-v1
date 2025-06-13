@@ -1,0 +1,19 @@
+# Node.js
+node_modules
+dist
+.env
+*.log
+
+# MacOS / Linux / Windows
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
+
+# Docker
+docker-compose.override.yml
+
+# VSCode
+.vscode
