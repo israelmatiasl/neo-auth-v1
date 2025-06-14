@@ -23,54 +23,52 @@ import { ConfigModule } from '@nestjs/config';
       port: Number(process.env.DB_NEO_PORT),
       username: process.env.DB_NEO_USER,
       password: process.env.DB_NEO_PASS,
-      database: 'NeoImperio',
+      database: process.env.DB_NEO_NAME,
       entities: [Account],
       synchronize: false,
       options: {
-        trustServerCertificate: true, // <--- agrega esta línea
+        trustServerCertificate: true
       },
     }),
 
-    // Conexión a billcrux_8k
-    TypeOrmModule.forRoot({
-      name: 'billcrux',
-      type: 'mssql',
-      host: process.env.DB_BILL_HOST,
-      port: Number(process.env.DB_BILL_PORT),
-      username: process.env.DB_BILL_USER,
-      password: process.env.DB_BILL_PASS,
-      database: 'billcrux_8k',
-      entities: [
-        User,
-        UserDetail,
-        UserInfo
-      ],
-      synchronize: false,
-      options: {
-        trustServerCertificate: true, // <--- agrega esta línea
-      },
-    }),
-
-    // Conexión a tantra_azteca
-    TypeOrmModule.forRoot({
-      name: 'tantra',
-      type: 'mssql',
-      host: process.env.DB_TANTRA_HOST,
-      port: Number(process.env.DB_TANTRA_PORT),
-      username: process.env.DB_TANTRA_USER,
-      password: process.env.DB_TANTRA_PASS,
-      database: 'tantra_azteca',
-      entities: [TantraItem],
-      synchronize: false,
-      options: {
-        trustServerCertificate: true, // <--- agrega esta línea
-      },
-    }),
+    //TypeOrmModule.forRoot({
+    //  name: 'billcrux',
+    //  type: 'mssql',
+    //  host: process.env.DB_BILL_HOST,
+    //  port: Number(process.env.DB_BILL_PORT),
+    //  username: process.env.DB_BILL_USER,
+    //  password: process.env.DB_BILL_PASS,
+    //  database: process.env.DB_BILL_NAME,
+    //  entities: [
+    //    User,
+    //    UserDetail,
+    //    UserInfo
+    //  ],
+    //  synchronize: false,
+    //  options: {
+    //    trustServerCertificate: true
+    //  },
+    //}),
+//
+    //TypeOrmModule.forRoot({
+    //  name: 'tantra',
+    //  type: 'mssql',
+    //  host: process.env.DB_TANTRA_HOST,
+    //  port: Number(process.env.DB_TANTRA_PORT),
+    //  username: process.env.DB_TANTRA_USER,
+    //  password: process.env.DB_TANTRA_PASS,
+    //  database: process.env.DB_TANTRA_NAME,
+    //  entities: [TantraItem],
+    //  synchronize: false,
+    //  options: {
+    //    trustServerCertificate: true
+    //  },
+    //}),
 
     // Módulos funcionales
     AccountModule,
-    UserModule,
-    TantraModule,
+    //UserModule,
+    //TantraModule,
   ],
   controllers: [AppController],
   providers: [AppService],

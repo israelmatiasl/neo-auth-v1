@@ -10,11 +10,23 @@ provider:
   stage: dev
   environment:
     STAGE: ${sls:stage}
-    MSSQL_HOST: devployd01.database.windows.net
-    MSSQL_PORT: 1433
-    MSSQL_USER: devploy
-    MSSQL_PASSWORD: 98714731Iml789.
-    MSSQL_DATABASE: devploy_db
+    DB_NEO_HOST: ${ssm:/neo-auth/db-neo/host}
+    DB_NEO_PORT: ${ssm:/neo-auth/db-neo/port}
+    DB_NEO_USER: ${ssm:/neo-auth/db-neo/user}
+    DB_NEO_PASS: ${ssm:/neo-auth/db-neo/pass}
+    DB_NEO_NAME: ${ssm:/neo-auth/db-neo/name}
+    #DB_BILL_HOST: ${ssm:/neo-auth/db-bill/host}
+    #DB_BILL_PORT: ${ssm:/neo-auth/db-bill/port}
+    #DB_BILL_USER: ${ssm:/neo-auth/db-bill/user}
+    #DB_BILL_PASS: ${ssm:/neo-auth/db-bill/pass}
+    #DB_BILL_NAME: ${ssm:/neo-auth/db-bill/name}
+    #DB_TANTRA_HOST: ${ssm:/neo-auth/db-tantra/host}
+    #DB_TANTRA_PORT: ${ssm:/neo-auth/db-tantra/port}
+    #DB_TANTRA_USER: ${ssm:/neo-auth/db-tantra/user}
+    #DB_TANTRA_PASS: ${ssm:/neo-auth/db-tantra/pass}
+    #DB_TANTRA_NAME: ${ssm:/neo-auth/db-tantra/name}
+    SUBNET_ID: ${ssm:/neo-auth/vpc/sn-id}
+    SECURITY_GROUP_ID: ${ssm:/neo-auth/vpc/sg-id}
   
   iam:
     role:
@@ -32,8 +44,13 @@ plugins:
 functions:
   main:
     handler: dist/handler.handler
-    timeout: 10
+    timeout: 20
     memorySize: 128
+    vpc:
+      securityGroupIds:
+        - ${self:provider.environment.SECURITY_GROUP_ID}
+      subnetIds:
+        - ${self:provider.environment.SUBNET_ID}
     events:
       - http:
           method: ANY
@@ -55,3 +72,28 @@ custom:
     target: node20
     platform: node
     concurrency: 10
+
+package:
+  patterns:
+    - '!node_modules/.cache/**'
+    - '!node_modules/**/test/**'
+    - '!node_modules/**/tests/**'
+    - '!node_modules/**/*.md'
+    - '!node_modules/**/*.ts'
+    - '!node_modules/**/*.map'
+    - '!node_modules/**/LICENSE*'
+    - '!node_modules/**/CHANGELOG*'
+    - '!node_modules/**/README*'
+    - '!node_modules/**/docs/**'
+    - '!node_modules/**/examples/**'
+    - '!node_modules/**/.github/**'
+    - '!src/**'
+    - '!test/**'
+    - '!*.md'
+    - '!.git/**'
+    - '!.vscode/**'
+    - '!.serverless/**'
+    - '!docker-compose.yml'
+    - '!Dockerfile'
+    - '!entrypoint.sh'
+    - 'dist/**'

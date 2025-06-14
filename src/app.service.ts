@@ -12,8 +12,8 @@ import { CreateAccountDto } from './account/dto/create-account.dto';
 export class AppService {
   constructor(
     private readonly accountService: AccountService,
-    private readonly userService: UserService,
-    private readonly tantraService: TantraService,
+    //private readonly userService: UserService,
+    //private readonly tantraService: TantraService,
   ) {}
 
   async registerAccount(dto: CreateAccountDto) {
@@ -41,10 +41,10 @@ export class AppService {
       });
 
       // Insertar datos en billcrux_8k (3 tablas)
-      await this.userService.createUser(account.accountId, username);
+      //await this.userService.createUser(account.accountId, username);
 
       // Insertar ítem inicial en tantra_azteca
-      await this.tantraService.addStarterItem(username);
+      //await this.tantraService.addStarterItem(username);
 
       return {
         message: 'Registro exitoso',

@@ -73,6 +73,9 @@ $ mau deploy
 Para ejecutar la base de datos localmente, sigue estos pasos:
 
 ```bash
+# Dar permisos de ejecución
+chmod +x entrypoint.sh
+
 # Detener y eliminar el contenedor actual
 docker-compose down
 
