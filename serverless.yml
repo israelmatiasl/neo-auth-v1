@@ -38,8 +38,8 @@ provider:
             - ec2:DeleteNetworkInterface
           Resource: "*"
 
-plugins:
-  - serverless-offline
+#plugins:
+#  - serverless-offline
 
 functions:
   main:
